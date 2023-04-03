@@ -21,7 +21,7 @@ const Card = ({ id }) => {
   }, [response]);
   return card && card.clientDetails ? (
     <Link
-      to="/deals/dasdf"
+      to={"/deals/" + card._id}
       className={`cursor-pointer w-full bg-bg border mb-1 border-l-8 p-2  flex flex-col gap-2 ${
         card.color ? `border-[${card.color}]` : null
       }`}

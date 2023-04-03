@@ -39,7 +39,19 @@ export const updateDealStage = createAsyncThunk(
     }
   }
 );
-
+export const getDealById = createAsyncThunk("updateDealStage", async (id) => {
+  try {
+    const res = await axiosInstance.get("/api/get-card", {
+      params: {
+        id,
+      },
+    });
+    return res.data.data;
+  } catch (err) {
+    console.log(err);
+    return err.message;
+  }
+});
 const dealSlice = createSlice({
   name: "deals",
   initialState,

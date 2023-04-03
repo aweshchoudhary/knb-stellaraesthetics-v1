@@ -6,8 +6,11 @@ import Activity from "../../components/deal/Activity";
 import File from "../../components/deal/File";
 import Email from "../../components/deal/Email";
 import DealSideBar from "../../components/deal/DealSideBar";
+import { useParams } from "react-router-dom";
 
 const Deal = () => {
+  const params = useParams();
+  const { id } = params;
   const tabs = [
     {
       id: 1,
@@ -34,6 +37,7 @@ const Deal = () => {
       component: <Email />,
     },
   ];
+
   return (
     <>
       <Header title={"Deal"} />

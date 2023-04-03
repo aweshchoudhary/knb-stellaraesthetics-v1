@@ -27,6 +27,18 @@ export const createDeal = createAsyncThunk("createDeal", async (data) => {
     return err.message;
   }
 });
+export const updateDealStage = createAsyncThunk(
+  "updateDealStage",
+  async (data) => {
+    try {
+      await axiosInstance.put("/api/update-card-stage", data);
+      return "Deal stage has updated";
+    } catch (err) {
+      console.log(err);
+      return err.message;
+    }
+  }
+);
 
 const dealSlice = createSlice({
   name: "deals",
@@ -80,6 +92,23 @@ const dealSlice = createSlice({
       state.data = action.payload;
     });
     builder.addCase(createDeal.rejected, (state, action) => {
+      state.loading = false;
+      state.success = false;
+      state.error = action.payload;
+    });
+
+    // UPDATE DEAL STAGE
+    builder.addCase(updateDealStage.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = null;
+    });
+    builder.addCase(updateDealStage.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.error = null;
+    });
+    builder.addCase(updateDealStage.rejected, (state, action) => {
       state.loading = false;
       state.success = false;
       state.error = action.payload;

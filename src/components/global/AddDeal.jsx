@@ -8,7 +8,7 @@ const AddDeal = ({ setIsOpen }) => {
   const dispatch = useDispatch();
 
   const [dealData, setDealData] = useState({
-    clientDetials: {
+    clientDetails: {
       company: null,
       title: null,
       contactPerson: null,
@@ -30,7 +30,7 @@ const AddDeal = ({ setIsOpen }) => {
   function addNewDeal() {
     dispatch(createDeal(dealData));
     setDealData({
-      clientDetials: {
+      clientDetails: {
         company: null,
         title: null,
         contactPerson: null,
@@ -48,8 +48,8 @@ const AddDeal = ({ setIsOpen }) => {
     setDealData((prev) => {
       return {
         ...prev,
-        clientDetials: {
-          ...prev.clientDetials,
+        clientDetails: {
+          ...prev.clientDetails,
           [name]: value,
         },
       };
@@ -66,7 +66,6 @@ const AddDeal = ({ setIsOpen }) => {
 
   return (
     <>
-      {error ? toast.error("Something went wrong!") : null}
       <div className="overflow-y-auto h-[calc(100%-110px)]">
         <form className="container sm:flex">
           <div className="sm:w-1/2 shrink-0 border-r h-full p-3">
@@ -153,7 +152,11 @@ const AddDeal = ({ setIsOpen }) => {
                     })
                   }
                 >
-                  <option selected className="text-black" value="inr">
+                  <option
+                    defaultValue={"inr"}
+                    className="text-black"
+                    value="inr"
+                  >
                     Indian Rupee
                   </option>
                   <option className="text-black" value="dollar">
@@ -175,7 +178,7 @@ const AddDeal = ({ setIsOpen }) => {
                 className="input capitalize"
                 onChange={(e) => fillDealDetails(e.target.name, e.target.value)}
               >
-                <option className="text-black" selected>
+                <option className="text-black" defaultValue={""}>
                   Select Stage
                 </option>
                 {stages?.data?.map((item, i) => {
@@ -230,8 +233,8 @@ const AddDeal = ({ setIsOpen }) => {
                   onChange={(e) =>
                     fillClientDetails(e.target.name, {
                       number: +e.target.value,
-                      prefix: dealData.clientDetials.phone.prefix,
-                      type: dealData.clientDetials.phone.type,
+                      prefix: dealData.clientDetails.phone.prefix,
+                      type: dealData.clientDetails.phone.type,
                     })
                   }
                 />
@@ -241,13 +244,17 @@ const AddDeal = ({ setIsOpen }) => {
                   className="input w-[40%]"
                   onChange={(e) =>
                     fillClientDetails(e.target.name, {
-                      number: dealData.clientDetials.phone.number,
-                      prefix: dealData.clientDetials.phone.prefix,
+                      number: dealData.clientDetails.phone.number,
+                      prefix: dealData.clientDetails.phone.prefix,
                       type: e.target.value,
                     })
                   }
                 >
-                  <option className="text-black" value="work">
+                  <option
+                    defaultValue={"work"}
+                    className="text-black"
+                    value="work"
+                  >
                     Work
                   </option>
                   <option className="text-black" value="personal">
@@ -276,7 +283,7 @@ const AddDeal = ({ setIsOpen }) => {
                   onChange={(e) =>
                     fillClientDetails(e.target.name, {
                       email: e.target.value,
-                      type: dealData.clientDetials.email.type,
+                      type: dealData.clientDetails.email.type,
                     })
                   }
                 />
@@ -286,12 +293,16 @@ const AddDeal = ({ setIsOpen }) => {
                   className="border py-2 bg-transparent rounded px-3 w-[40%]"
                   onChange={(e) =>
                     fillClientDetails(e.target.name, {
-                      email: dealData.clientDetials.email.email,
+                      email: dealData.clientDetails.email.email,
                       type: e.target.value,
                     })
                   }
                 >
-                  <option className="text-black" value="inr">
+                  <option
+                    className="text-black"
+                    defaultValue={"inr"}
+                    value="inr"
+                  >
                     Work
                   </option>
                   <option className="text-black" value="dollar">

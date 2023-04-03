@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../config/axiosInstance";
 
-const useAxios = ({ configObject }) => {
+const useAxios = (configObject) => {
   const { method, url, config } = configObject;
   const [response, setResponse] = useState([]);
   const [error, setError] = useState("");
@@ -13,7 +13,7 @@ const useAxios = ({ configObject }) => {
     const controller = new AbortController();
     const requestHandle = async () => {
       try {
-        const res = await axiosInstance[method.lowerCase()](url, {
+        const res = await axiosInstance[method.toLowerCase()](url, {
           ...config,
           signal: controller.signal,
         });

@@ -68,8 +68,19 @@ const stageSlice = createSlice({
   name: "stage",
   initialState,
   reducers: {
-    setSuccessFalse(state) {
-      state.success = false;
+    addTempItemToStage(state, { payload }) {
+      state.data.forEach((stage) => {
+        if (stage._id === payload.stageId) {
+          stage.items.push(payload.item);
+        }
+      });
+    },
+    removeTempItemFromStage(state, { payload }) {
+      state.data.forEach((stage) => {
+        if (stage._id === payload.stageId) {
+          stage.items.splice(payload.itemPosition, 1);
+        }
+      });
     },
   },
   extraReducers: (builder) => {
@@ -126,5 +137,6 @@ const stageSlice = createSlice({
   },
 });
 
-export const {} = stageSlice.actions;
+export const { addTempItemToStage, removeTempItemFromStage } =
+  stageSlice.actions;
 export default stageSlice.reducer;

@@ -1,5 +1,7 @@
 import { lazy, useState } from "react";
 import Header from "../../components/global/Header";
+import { Suspense } from "react";
+import Loader from "../../components/global/Loader";
 
 const Kanban = lazy(() => import("../../components/kanban/Kanban"));
 const EditKanban = lazy(() => import("../../components/kanban/EditKanban"));
@@ -9,11 +11,13 @@ const Deals = () => {
   return (
     <>
       <Header title={"Deals"} />
-      {isKanBanEdit ? (
-        <EditKanban setIsKanBanEdit={setIsKanBanEdit} />
-      ) : (
-        <Kanban setIsKanBanEdit={setIsKanBanEdit} />
-      )}
+      <Suspense fallback={<Loader />}>
+        {isKanBanEdit ? (
+          <EditKanban setIsKanBanEdit={setIsKanBanEdit} />
+        ) : (
+          <Kanban setIsKanBanEdit={setIsKanBanEdit} />
+        )}
+      </Suspense>
     </>
   );
 };

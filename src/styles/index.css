@@ -1341,6 +1341,10 @@ option {
   opacity: 0.4;
 }
 
+.opacity-50 {
+  opacity: 0.5;
+}
+
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
@@ -1456,14 +1460,6 @@ option {
 
   .md\:w-\[90px\] {
     width: 90px;
-  }
-
-  .md\:w-\[calc\(100\%-250px\)\] {
-    width: calc(100% - 250px);
-  }
-
-  .md\:w-\[calc\(100\%-90px\)\] {
-    width: calc(100% - 90px);
   }
 
   .md\:p-10 {

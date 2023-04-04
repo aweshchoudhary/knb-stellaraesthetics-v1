@@ -927,10 +927,6 @@ option {
   min-height: 100px;
 }
 
-.min-h-\[calc\(100\%-190px\)\] {
-  min-height: calc(100% - 190px);
-}
-
 .min-h-\[calc\(100\%-180px\)\] {
   min-height: calc(100% - 180px);
 }

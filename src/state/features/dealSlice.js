@@ -39,7 +39,7 @@ export const updateDealStage = createAsyncThunk(
     }
   }
 );
-export const getDealById = createAsyncThunk("updateDealStage", async (id) => {
+export const getDealById = createAsyncThunk("getDealById", async (id) => {
   try {
     const res = await axiosInstance.get("/api/get-card", {
       params: {
@@ -125,8 +125,26 @@ const dealSlice = createSlice({
       state.success = false;
       state.error = action.payload;
     });
+
+    // GET DEAL
+    builder.addCase(getDealById.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = null;
+    });
+    builder.addCase(getDealById.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      state.data = payload;
+      state.error = null;
+    });
+    builder.addCase(getDealById.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.success = false;
+      state.error = payload;
+    });
   },
 });
 
-export const {} = dealSlice.actions;
+// export const {} = dealSlice.actions;
 export default dealSlice.reducer;

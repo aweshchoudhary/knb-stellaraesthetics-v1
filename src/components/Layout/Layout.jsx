@@ -14,10 +14,10 @@ const Layout = () => {
       : document.documentElement.classList.remove("darkMode");
   }, [darkMode]);
   return (
-    <div className="flex relative w-screen">
+    <div className="flex relative w-screen h-screen">
       <SideBar setIsOpen={setIsSideBarOpen} isOpen={isSideBarOpen} />
       <main className="flex-1">
-        <article className="h-screen overflow-y-auto">
+        <article className="h-full overflow-y-auto">
           <Suspense
             fallback={
               <section className="h-screen w-full flex items-center justify-center">

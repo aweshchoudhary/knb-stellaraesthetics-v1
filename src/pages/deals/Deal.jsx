@@ -7,9 +7,15 @@ import File from "../../components/deal/File";
 import Email from "../../components/deal/Email";
 import DealSideBar from "../../components/deal/DealSideBar";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getDealById } from "../../state/features/dealSlice";
+import Loader from "../../components/global/Loader";
 
 const Deal = () => {
+  const { data, loading, error, success } = useSelector((state) => state.deals);
   const params = useParams();
+  const dispatch = useDispatch();
   const { id } = params;
   const tabs = [
     {
@@ -38,13 +44,20 @@ const Deal = () => {
     },
   ];
 
-  return (
+  useEffect(() => {
+    let isMounted = true;
+    isMounted && dispatch(getDealById(id));
+    return () => (isMounted = false);
+  }, [id]);
+  return data && data.clientDetails && !loading ? (
     <>
       <Header title={"Deal"} />
       <section className="header border-b border-collapse px-5 py-3 h-[120px]">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h1 className="text-2xl font-semibold">Example Company Deal</h1>
+            <h1 className="text-2xl font-semibold">
+              {data.clientDetails.title}
+            </h1>
           </div>
           <div className="flex items-center gap-3">
             <div className="flex gap-1">
@@ -70,13 +83,17 @@ const Deal = () => {
           </button>
         </div>
       </section>
-      <section className="flex min-h-[calc(100%-190px)]">
-        <DealSideBar />
+      <section className="flex min-h-[calc(100%-180px)]">
+        <DealSideBar data={data} />
         <div className="flex-1 p-5 bg-paper">
           <Tabs tabs={tabs} />
         </div>
       </section>
     </>
+  ) : (
+    <section className="h-screen w-full flex items-center justify-center">
+      <Loader />
+    </section>
   );
 };
 

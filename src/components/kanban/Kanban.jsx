@@ -70,28 +70,30 @@ const Kanban = ({ setIsKanBanEdit }) => {
         createStageModelDisplay={createStageModelDisplay}
         setCreateStageModelDisplay={setCreateStageModelDisplay}
       />
-      <section className="flex items-center justify-between px-5 py-2 border-b">
-        <div>
-          <button
-            onClick={() => setAddDealModelDisplay(true)}
-            className="btn-filled btn-small"
-          >
-            <Icon icon={"uil:plus"} className="text-xl" />
-            Deal
-          </button>
-        </div>
-        <div>
-          <div></div>
+      {data.length ? (
+        <section className="flex items-center justify-between px-5 py-2 border-b">
           <div>
             <button
+              onClick={() => setAddDealModelDisplay(true)}
               className="btn-filled btn-small"
-              onClick={() => setIsKanBanEdit(true)}
             >
-              edit
+              <Icon icon={"uil:plus"} className="text-xl" />
+              Deal
             </button>
           </div>
-        </div>
-      </section>
+          <div>
+            <div></div>
+            <div>
+              <button
+                className="btn-filled btn-small"
+                onClick={() => setIsKanBanEdit(true)}
+              >
+                edit
+              </button>
+            </div>
+          </div>
+        </section>
+      ) : null}
       {data.length ? (
         <section className="h-[calc(100%-120px)]">
           <div className="flex overflow-x-auto h-full">

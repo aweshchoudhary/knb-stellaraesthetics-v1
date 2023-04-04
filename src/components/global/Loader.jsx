@@ -1,8 +1,10 @@
-const Loader = () => {
+const Loader = ({ w, h }) => {
   return (
-    <div className="wrapper">
-      <div className="loader"></div>
-    </div>
+    <div
+      className={`loader ${h ? `h-[${h}px]` : "h-[20px]"} ${
+        w ? `w-[${w}px]` : "w-[200px]"
+      }`}
+    ></div>
   );
 };
 

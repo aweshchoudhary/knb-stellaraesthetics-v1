@@ -715,27 +715,17 @@ option {
   left: -130%;
   width: 100%;
   height: 100%;
-  background: white;
+  background: var(--primary);
   animation: progress 2.5s linear infinite;
 }
 
 @keyframes progress {
   0% {
     left: -130%;
-    background: var(--text-color);
-  }
-
-  50% {
-    left: 130%;
-    background: var(--text-color);
-  }
-
-  51% {
-    background: var(--text-color);
   }
 
   100% {
-    background: var(--text-color);
+    left: 130%;
   }
 }
 
@@ -897,6 +887,10 @@ option {
   height: 120px;
 }
 
+.h-\[20px\] {
+  height: 20px;
+}
+
 .h-\[30px\] {
   height: 30px;
 }
@@ -937,6 +931,10 @@ option {
   min-height: calc(100% - 190px);
 }
 
+.min-h-\[calc\(100\%-180px\)\] {
+  min-height: calc(100% - 180px);
+}
+
 .w-1\/2 {
   width: 50%;
 }
@@ -947,6 +945,10 @@ option {
 
 .w-\[100px\] {
   width: 100px;
+}
+
+.w-\[200px\] {
+  width: 200px;
 }
 
 .w-\[230px\] {

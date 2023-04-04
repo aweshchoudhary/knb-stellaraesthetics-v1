@@ -1,8 +1,10 @@
 import { Icon } from "@iconify/react";
 import FileInput from "../customFields/Fields/FileInput";
 import Accordian, { AccordianBody } from "../global/Accordian";
+import formatNumber from "../functions/formatNumber";
 
-const DealSideBar = () => {
+const DealSideBar = ({ data }) => {
+  console.log(data);
   return (
     <aside className="w-[350px] shrink-0 border-r h-full overflow-auto">
       <Accordian title={"Summary"}>
@@ -10,11 +12,16 @@ const DealSideBar = () => {
           <div>
             <div className="money/value flex items-center gap-4 mb-4">
               <Icon icon="ph:money" className="text-2xl" />
-              <p>10,000 Rs</p>
+              <p>
+                {formatNumber(data.value.value, {
+                  country: "en-IN",
+                  type: "INR",
+                })}
+              </p>
             </div>
             <div className="expected-close-date flex items-center gap-4 mb-4">
               <Icon icon="bx:calendar" className="text-2xl" />
-              <p>29 March, 2023</p>
+              <p>{data.createdAt}</p>
             </div>
             <div className="expected-close-date flex items-center gap-4 mb-4">
               <Icon icon="uil:user" className="text-2xl" />

@@ -4,7 +4,6 @@ import Accordian, { AccordianBody } from "../global/Accordian";
 import formatNumber from "../functions/formatNumber";
 
 const DealSideBar = ({ data }) => {
-  console.log(data);
   return (
     <aside className="w-[350px] shrink-0 border-r h-full overflow-auto">
       <Accordian title={"Summary"}>
@@ -25,11 +24,11 @@ const DealSideBar = ({ data }) => {
             </div>
             <div className="expected-close-date flex items-center gap-4 mb-4">
               <Icon icon="uil:user" className="text-2xl" />
-              <p>Awesh Choudhary</p>
+              <p>{data.clientDetails.contactPerson}</p>
             </div>
             <div className="expected-close-date flex items-center gap-4 mb-4">
               <Icon icon="uil:building" className="text-2xl" />
-              <p>Stellar Aesthetics</p>
+              <p>{data.clientDetails.company}</p>
             </div>
           </div>
         </AccordianBody>

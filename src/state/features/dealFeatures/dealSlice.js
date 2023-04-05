@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axiosInstance from "../../config/axiosInstance";
+import axiosInstance from "../../../config/axiosInstance";
 
 const initialState = {
   data: [],
@@ -52,6 +52,7 @@ export const getDealById = createAsyncThunk("getDealById", async (id) => {
     return err.message;
   }
 });
+
 const dealSlice = createSlice({
   name: "deals",
   initialState,

@@ -54,6 +54,7 @@ const Activity = ({ selectedInfo }) => {
           {activityOptions.map((item, index) => {
             return (
               <button
+                key={index}
                 aria-label={item.name}
                 title={item.name}
                 className={`${

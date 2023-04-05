@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import Card from "../global/Card";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,6 +21,7 @@ import { updateDealStage } from "../../state/features/dealSlice";
 const Kanban = ({ setIsKanBanEdit }) => {
   const dispatch = useDispatch();
   const deals = useSelector((state) => state.deals);
+  const [isPending, startTransition] = useTransition();
   const { data, loading, success, error } = useSelector(
     (state) => state.stages
   );
@@ -32,32 +33,35 @@ const Kanban = ({ setIsKanBanEdit }) => {
     if (!result.destination) return;
     const { source, destination, draggableId } = result;
     if (source.droppableId !== destination.droppableId) {
-      dispatch(
-        addTempItemToStage({
-          stageId: destination.droppableId,
-          item: draggableId,
-        })
-      );
-      dispatch(
-        removeTempItemFromStage({
-          stageId: source.droppableId,
-          itemPosition: source.index,
-        })
-      );
-      dispatch(
-        updateDealStage({
-          cardId: result.draggableId,
-          prevStageId: result.source.droppableId,
-          newStageId: result.destination.droppableId,
-        })
-      );
+      startTransition(() => {
+        dispatch(
+          removeTempItemFromStage({
+            stageId: source.droppableId,
+            itemPosition: source.index,
+          })
+        );
+        dispatch(
+          addTempItemToStage({
+            stageId: destination.droppableId,
+            item: draggableId,
+          })
+        );
+      });
+      startTransition(() => {
+        dispatch(
+          updateDealStage({
+            cardId: result.draggableId,
+            prevStageId: result.source.droppableId,
+            newStageId: result.destination.droppableId,
+          })
+        );
+      });
     }
   };
 
   useEffect(() => {
     dispatch(getAllStages());
-    console.count("Rendered");
-  }, [deals.success]);
+  }, []);
 
   return (
     <>

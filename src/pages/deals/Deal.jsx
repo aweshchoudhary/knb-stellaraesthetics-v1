@@ -9,11 +9,16 @@ import DealSideBar from "../../components/deal/DealSideBar";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getDealById } from "../../state/features/dealSlice";
+import {
+  getDealById,
+  updateDealStage,
+} from "../../state/features/dealFeatures/dealSlice";
+import { getAllStages } from "../../state/features/stageSlice";
 import Loader from "../../components/global/Loader";
 
 const Deal = () => {
   const { data, loading, error, success } = useSelector((state) => state.deals);
+  const stages = useSelector((state) => state.stages);
   const params = useParams();
   const dispatch = useDispatch();
   const { id } = params;
@@ -22,7 +27,7 @@ const Deal = () => {
       id: 1,
       name: "notes",
       icon: "material-symbols:sticky-note-2-outline",
-      component: <Notes />,
+      component: <Notes cardId={id} />,
     },
     {
       id: 2,
@@ -43,13 +48,28 @@ const Deal = () => {
       component: <Email />,
     },
   ];
+  console.log(data);
+  function updateDealStageFn(cardId, prevStageId, newStageId) {
+    dispatch(
+      updateDealStage({
+        cardId,
+        prevStageId,
+        newStageId,
+      })
+    );
+  }
 
   useEffect(() => {
     let isMounted = true;
     isMounted && dispatch(getDealById(id));
+    isMounted && dispatch(getAllStages());
     return () => (isMounted = false);
   }, [id]);
-  return data && data.clientDetails && !loading ? (
+  return data &&
+    data.clientDetails &&
+    !loading &&
+    !stages.loading &&
+    stages.data ? (
     <>
       <Header title={"Deal"} />
       <section className="header border-b border-collapse px-5 py-3 h-[120px]">
@@ -72,15 +92,28 @@ const Deal = () => {
           </div>
         </div>
         <div className="w-full flex gap-1">
-          <button className="px-2 py-1 flex-1 text-white bg-primary text-center">
-            <p>Requested: 29 Days</p>
-          </button>
-          <button className="px-2 py-1 flex-1 bg-paper text-center hover:bg-primary hover:text-white">
-            <p>To Do</p>
-          </button>
-          <button className="px-2 py-1 flex-1 bg-paper text-center hover:bg-primary hover:text-white">
-            <p>In Progress</p>
-          </button>
+          {stages.data &&
+            stages.data.map((stage, index) => {
+              return (
+                <button
+                  key={index}
+                  className={`px-2 py-1 flex-1 text-center ${
+                    data.stages[index]?.active
+                      ? "text-white bg-primary"
+                      : "bg-paper hover:bg-primary hover:text-white"
+                  }`}
+                  onClick={() =>
+                    updateDealStageFn(
+                      data._id,
+                      data.stages[index].active ? data.stages[index] : null._id,
+                      stage._id
+                    )
+                  }
+                >
+                  <p>{stage.name}: 29 Days</p>
+                </button>
+              );
+            })}
         </div>
       </section>
       <section className="flex min-h-[calc(100%-180px)]">

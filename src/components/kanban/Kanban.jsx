@@ -1,8 +1,6 @@
-import { useEffect, useState, useTransition } from "react";
-import Card from "../global/Card";
+import { useEffect, useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from "react-redux";
-// import { reorderDeals, setStage } from "../../state/features/dealSlice";
 import {
   addTempItemToStage,
   getAllStages,
@@ -12,19 +10,14 @@ import { Icon } from "@iconify/react";
 import AddDeal from "../global/AddDeal";
 import Model from "../models/Model";
 import Column from "./Column";
-import Row from "./Row";
 import { toast } from "react-toastify";
 import CreateKanbanModel from "../models/CreateStageModel";
-import Loader from "../global/Loader";
-import { updateDealStage } from "../../state/features/dealSlice";
+import { updateDealStage } from "../../state/features//dealFeatures/dealSlice";
 
 const Kanban = ({ setIsKanBanEdit }) => {
   const dispatch = useDispatch();
+  const { data, loading, error } = useSelector((state) => state.stages);
   const deals = useSelector((state) => state.deals);
-  const [isPending, startTransition] = useTransition();
-  const { data, loading, success, error } = useSelector(
-    (state) => state.stages
-  );
   const [editDealModelDisplay, setEditDealModelDisplay] = useState(false);
   const [addDealModelDisplay, setAddDealModelDisplay] = useState(false);
   const [createStageModelDisplay, setCreateStageModelDisplay] = useState(false);
@@ -33,35 +26,31 @@ const Kanban = ({ setIsKanBanEdit }) => {
     if (!result.destination) return;
     const { source, destination, draggableId } = result;
     if (source.droppableId !== destination.droppableId) {
-      startTransition(() => {
-        dispatch(
-          removeTempItemFromStage({
-            stageId: source.droppableId,
-            itemPosition: source.index,
-          })
-        );
-        dispatch(
-          addTempItemToStage({
-            stageId: destination.droppableId,
-            item: draggableId,
-          })
-        );
-      });
-      startTransition(() => {
-        dispatch(
-          updateDealStage({
-            cardId: result.draggableId,
-            prevStageId: result.source.droppableId,
-            newStageId: result.destination.droppableId,
-          })
-        );
-      });
+      dispatch(
+        removeTempItemFromStage({
+          stageId: source.droppableId,
+          itemPosition: source.index,
+        })
+      );
+      dispatch(
+        addTempItemToStage({
+          stageId: destination.droppableId,
+          item: draggableId,
+        })
+      );
+      dispatch(
+        updateDealStage({
+          cardId: result.draggableId,
+          prevStageId: result.source.droppableId,
+          newStageId: result.destination.droppableId,
+        })
+      );
     }
   };
 
   useEffect(() => {
     dispatch(getAllStages());
-  }, []);
+  }, [deals.loading]);
 
   return (
     <>

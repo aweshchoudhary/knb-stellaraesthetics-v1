@@ -52,6 +52,19 @@ export const getDealById = createAsyncThunk("getDealById", async (id) => {
     return err.message;
   }
 });
+export const deleteDealById = createAsyncThunk("deleteDealById", async (id) => {
+  try {
+    await axiosInstance.delete("/api/card", {
+      params: {
+        id,
+      },
+    });
+    return "Deal has been deleted";
+  } catch (err) {
+    console.log(err);
+    return err.message;
+  }
+});
 
 const dealSlice = createSlice({
   name: "deals",
@@ -140,6 +153,23 @@ const dealSlice = createSlice({
       state.error = null;
     });
     builder.addCase(getDealById.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.success = false;
+      state.error = payload;
+    });
+
+    // GET DEAL
+    builder.addCase(deleteDealById.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = null;
+    });
+    builder.addCase(deleteDealById.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      state.error = null;
+    });
+    builder.addCase(deleteDealById.rejected, (state, { payload }) => {
       state.loading = false;
       state.success = false;
       state.error = payload;

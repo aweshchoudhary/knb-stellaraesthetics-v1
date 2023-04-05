@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createDeal } from "../../state/features/dealSlice";
+import { createDeal } from "../../state/features/dealFeatures/dealSlice";
 
 const AddDeal = ({ setIsOpen }) => {
   const stages = useSelector((state) => state.stages);

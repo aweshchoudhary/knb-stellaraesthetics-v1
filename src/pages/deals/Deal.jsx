@@ -6,21 +6,25 @@ import Activity from "../../components/deal/Activity";
 import File from "../../components/deal/File";
 import Email from "../../components/deal/Email";
 import DealSideBar from "../../components/deal/DealSideBar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
+  deleteDealById,
   getDealById,
   updateDealStage,
 } from "../../state/features/dealFeatures/dealSlice";
 import { getAllStages } from "../../state/features/stageSlice";
 import Loader from "../../components/global/Loader";
+import moment from "moment";
 
 const Deal = () => {
   const { data, loading, error, success } = useSelector((state) => state.deals);
   const stages = useSelector((state) => state.stages);
   const params = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { id } = params;
   const tabs = [
     {
@@ -48,7 +52,6 @@ const Deal = () => {
       component: <Email />,
     },
   ];
-  console.log(data);
   function updateDealStageFn(cardId, prevStageId, newStageId) {
     dispatch(
       updateDealStage({
@@ -57,6 +60,10 @@ const Deal = () => {
         newStageId,
       })
     );
+  }
+  function handleDeleteDeal() {
+    dispatch(deleteDealById(id));
+    navigate("/deals", { replace: true });
   }
 
   useEffect(() => {
@@ -83,10 +90,11 @@ const Deal = () => {
             <div className="flex gap-1">
               <button className="btn-filled bg-green-600 border-0">Won</button>
               <button className="btn-filled bg-red-600 border-0">Lost</button>
-            </div>
-            <div>
-              <button className="btn-outlined text-xl">
-                <Icon icon="uil:arrow-down" />
+              <button
+                className="btn-outlined text-red-600 ml-2"
+                onClick={handleDeleteDeal}
+              >
+                Delete
               </button>
             </div>
           </div>
@@ -110,7 +118,12 @@ const Deal = () => {
                     )
                   }
                 >
-                  <p>{stage.name}: 29 Days</p>
+                  <p>
+                    {stage.name}:{" "}
+                    {data?.stages[index]?.active
+                      ? moment(data?.stages[index]?.updatedAt).fromNow()
+                      : "0 Days"}
+                  </p>
                 </button>
               );
             })}

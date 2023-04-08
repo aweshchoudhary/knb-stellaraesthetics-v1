@@ -26,23 +26,20 @@ export const updateNote = createAsyncThunk("updateNote", async (data) => {
     return err.message;
   }
 });
-export const deleteNote = createAsyncThunk(
-  "deleteNote",
-  async (cardId, noteId) => {
-    try {
-      await axiosInstance.delete("/api/card/delete-note", {
-        params: {
-          cardId,
-          noteId,
-        },
-      });
-      return "Note has been deleted";
-    } catch (err) {
-      console.log(err);
-      return err.message;
-    }
+export const deleteNote = createAsyncThunk("deleteNote", async (data) => {
+  try {
+    await axiosInstance.delete("/api/card/delete-note", {
+      params: {
+        cardId: data.cardId,
+        noteId: data.noteId,
+      },
+    });
+    return "Note has been deleted";
+  } catch (err) {
+    console.log(err);
+    return err.message;
   }
-);
+});
 
 const noteSlice = createSlice({
   name: "note",

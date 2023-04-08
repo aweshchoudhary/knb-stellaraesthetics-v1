@@ -50,7 +50,7 @@ const Kanban = ({ setIsKanBanEdit }) => {
 
   useEffect(() => {
     dispatch(getAllStages());
-  }, [deals.loading]);
+  }, [deals.success]);
 
   return (
     <>

@@ -17,6 +17,8 @@ import {
 import { getAllStages } from "../../state/features/stageSlice";
 import Loader from "../../components/global/Loader";
 import moment from "moment";
+import ActivitiesDisplay from "../../components/deal/ActivitiesDisplay";
+import FocusActivities from "../../components/deal/FocusActivities";
 
 const Deal = () => {
   const { data, loading, error, success } = useSelector((state) => state.deals);
@@ -121,7 +123,7 @@ const Deal = () => {
                   <p>
                     {stage.name}:{" "}
                     {data?.stages[index]?.active
-                      ? moment(data?.stages[index]?.updatedAt).fromNow()
+                      ? moment(data?.stages[index]?.createdAt).fromNow()
                       : "0 Days"}
                   </p>
                 </button>
@@ -133,6 +135,8 @@ const Deal = () => {
         <DealSideBar data={data} />
         <div className="flex-1 p-5 bg-paper">
           <Tabs tabs={tabs} />
+          <FocusActivities />
+          <ActivitiesDisplay />
         </div>
       </section>
     </>

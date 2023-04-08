@@ -855,6 +855,10 @@ option {
   margin-left: 0.5rem;
 }
 
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
 .mt-3 {
   margin-top: 0.75rem;
 }
@@ -983,6 +987,10 @@ option {
   width: 60%;
 }
 
+.w-\[60px\] {
+  width: 60px;
+}
+
 .w-full {
   width: 100%;
 }
@@ -1097,6 +1105,10 @@ option {
   border-width: 0px;
 }
 
+.border-2 {
+  border-width: 2px;
+}
+
 .border-y {
   border-top-width: 1px;
   border-bottom-width: 1px;
@@ -1108,6 +1120,10 @@ option {
 
 .border-b-2 {
   border-bottom-width: 2px;
+}
+
+.border-l-2 {
+  border-left-width: 2px;
 }
 
 .border-l-8 {
@@ -1317,6 +1333,11 @@ option {
   color: rgb(37 99 235 / var(--tw-text-opacity));
 }
 
+.text-gray-400 {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+
 .text-red-600 {
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity));
@@ -1334,6 +1355,16 @@ option {
 .text-yellow-500 {
   --tw-text-opacity: 1;
   color: rgb(234 179 8 / var(--tw-text-opacity));
+}
+
+.text-gray-300 {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity));
+}
+
+.text-gray-600 {
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
 }
 
 .underline {
@@ -1380,6 +1411,10 @@ option {
 
 .hover\:border-textColor:hover {
   border-color: var(--text-color);
+}
+
+.hover\:bg-bg:hover {
+  background-color: var(--background);
 }
 
 .hover\:bg-gray-100:hover {

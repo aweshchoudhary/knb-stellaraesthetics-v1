@@ -10,7 +10,10 @@ const initialState = {
 // API CALLS
 export const addActivity = createAsyncThunk("addActivity", async (data) => {
   try {
-    await axiosInstance.post("/api/card/add-activity", data);
+    await axiosInstance.post("/api/card/add-activity", {
+      data: data.data,
+      cardId: data.cardId,
+    });
     return "Activity has been added";
   } catch (err) {
     console.log(err);

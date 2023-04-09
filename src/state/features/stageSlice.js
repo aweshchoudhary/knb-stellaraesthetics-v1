@@ -51,13 +51,19 @@ export const createStage = createAsyncThunk("createStage", async (data) => {
     return err.message;
   }
 });
-export const deleteStage = createAsyncThunk("deleteStage", async (data) => {
+export const updateStage = createAsyncThunk("updateStage", async (data) => {
   try {
-    await axiosInstance.delete("/api/stage", {
-      params: {
-        id: data,
-      },
+    await axiosInstance.put("/api/stage/" + data.stageId, {
+      name: data.name,
     });
+    return "Stage updated";
+  } catch (err) {
+    return err.message;
+  }
+});
+export const deleteStage = createAsyncThunk("deleteStage", async (id) => {
+  try {
+    await axiosInstance.delete("/api/stage/" + id);
     return "Stage Deleted";
   } catch (err) {
     return err.message;
@@ -91,7 +97,6 @@ const stageSlice = createSlice({
     });
     builder.addCase(getAllStages.fulfilled, (state, action) => {
       state.loading = false;
-      state.success = true;
       state.data = action.payload;
       state.error = null;
     });
@@ -130,6 +135,23 @@ const stageSlice = createSlice({
       state.error = null;
     });
     builder.addCase(deleteStage.rejected, (state, action) => {
+      state.loading = false;
+      state.success = false;
+      state.error = action.payload;
+    });
+
+    //UPDATE STAGE FUNCTIONS
+    builder.addCase(updateStage.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = null;
+    });
+    builder.addCase(updateStage.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.error = null;
+    });
+    builder.addCase(updateStage.rejected, (state, action) => {
       state.loading = false;
       state.success = false;
       state.error = action.payload;

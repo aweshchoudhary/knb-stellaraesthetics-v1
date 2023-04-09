@@ -1,36 +1,53 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Icon } from "@iconify/react";
 import moment from "moment";
+import Loader from "../global/Loader";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { getActivitiesByCardId } from "../../state/features/dealFeatures/activitySlice";
+
 const FocusActivities = () => {
-  const { data, loading, error, success } = useSelector((state) => state.deals);
-  return data.activities.length ? (
+  return (
     <div className="my-4">
       <header className="mb-3">
         <h2 className="text-lg font-medium">Focus Activity</h2>
       </header>
-      <div className="body">
-        <Activites />
-      </div>
+      <Activites />
     </div>
-  ) : null;
+  );
 };
 
-const Activites = ({ name }) => {
-  const { data, loading, error, success } = useSelector((state) => state.deals);
-
-  return data && !loading ? (
+const Activites = () => {
+  const deal = useSelector((state) => state.deals);
+  const { data, loading, success } = useSelector((state) => state.activity);
+  const dispatch = useDispatch();
+  console.log(data);
+  useEffect(() => {
+    dispatch(getActivitiesByCardId(deal.data._id));
+  }, [deal.data._id, success]);
+  return !loading ? (
     <div>
       <ul>
-        {data.activities.map((activity, index) => {
-          return (
-            <li key={index}>
-              <ActivityCard data={activity} cardId={data._id} />
-            </li>
-          );
-        })}
+        {data.length ? (
+          data.map((activity, index) => {
+            return (
+              <li key={index}>
+                <ActivityCard data={activity} cardId={data._id} />
+              </li>
+            );
+          })
+        ) : (
+          <section className="w-full h-[100px] bg-bg my-4 flex items-center justify-center">
+            <p>No notes to show</p>
+          </section>
+        )}
       </ul>
     </div>
-  ) : null;
+  ) : (
+    <section className="w-full h-[100px] bg-bg my-4 flex items-center justify-center">
+      <Loader />
+    </section>
+  );
 };
 
 const ActivityCard = ({ data }) => {
@@ -44,19 +61,12 @@ const ActivityCard = ({ data }) => {
         <div className="line border-l-2 flex-1"></div>
       </div>
       <div className="bg-bg mb-2 p-3 text-sm flex-1">
-        <header className="flex items-center justify-between text-gray-600">
+        <header className="flex items-center justify-between ">
           <div className="flex gap-2 items-center">
             <button className="p-2 rounded-full border-2 hover:border-textColor"></button>
             <span className="capitalize text-lg text-textColor">
               {data.title}
             </span>
-            <span>Awesh Choudhary</span>
-            {data.location && (
-              <span className="flex items-center gap-1">
-                <Icon icon="material-symbols:location-on" />
-                {data.location}
-              </span>
-            )}
           </div>
           <div className="flex gap-1">
             <button className="btn-outlined btn-small">
@@ -69,16 +79,15 @@ const ActivityCard = ({ data }) => {
         </header>
         <div className="mt-2">
           {data.description && <div className="mb-2">{data.description}</div>}
-          <div className="flex gap-3 text-sm text-gray-600">
+          <div className="flex gap-3 text-sm ">
             <span>{moment(data.endDate).fromNow()}</span>
-            <span className="flex items-center gap-1">
-              <Icon icon="uil:user" />
-              {deal.data.clientDetails.contactPerson}
-            </span>
-            <span className="flex items-center gap-1">
-              <Icon icon="uil:building" />
-              {deal.data.clientDetails.company}
-            </span>
+            <span>Awesh Choudhary</span>
+            {data.location && (
+              <span className="flex items-center gap-1">
+                <Icon icon="material-symbols:location-on" />
+                {data.location}
+              </span>
+            )}
           </div>
         </div>
       </div>

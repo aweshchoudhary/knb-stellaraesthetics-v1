@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addActivity } from "../../state/features/dealFeatures/activitySlice";
 import Loader from "../global/Loader";
 
-const Activity = ({ selectedInfo }) => {
+const Activity = () => {
   const { data, loading, error, success } = useSelector((state) => state.deals);
   const [title, setTitle] = useState("call");
   const [type, setType] = useState("call");
@@ -54,20 +54,21 @@ const Activity = ({ selectedInfo }) => {
   }
 
   function handleSave() {
+    const convertedStartDate = new Date(startDate).toISOString();
+    const convertedEndDate = new Date(endDate).toISOString();
+
     dispatch(
       addActivity({
-        data: {
-          title,
-          type,
-          startDate: new Date(startDate),
-          startTime,
-          endDate: new Date(endDate),
-          endTime,
-          description,
-          location,
-          holder,
-        },
+        title,
+        type,
+        startDate: convertedStartDate,
+        startTime,
+        endDate: convertedEndDate,
+        endTime,
+        description,
+        location,
         cardId: data._id,
+        holder,
       })
     );
   }
@@ -238,10 +239,10 @@ const Activity = ({ selectedInfo }) => {
         </div>
         <footer className="flex items-center justify-end border-t mt-2s p-3 gap-2">
           <button className="btn-outlined" onClick={handleCancel}>
-            cancel
+            {loading ? "Loading..." : "cancel"}
           </button>
           <button className="btn-filled" onClick={handleSave}>
-            save
+            {loading ? "Loading..." : "save"}
           </button>
         </footer>
       </section>

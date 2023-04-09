@@ -7,13 +7,41 @@ const initialState = {
   success: false,
   error: null,
 };
+
 // API CALLS
+
+export const getActivitiesByCardId = createAsyncThunk(
+  "getActivitiesByCardId",
+  async (cardId) => {
+    try {
+      const { data } = await axiosInstance.get(
+        "/api/activity/get-activities/" + cardId
+      );
+      return data.data;
+    } catch (err) {
+      console.log(err);
+      return err.message;
+    }
+  }
+);
+export const getActivityById = createAsyncThunk(
+  "getActivityById",
+  async (id) => {
+    try {
+      const { data } = await axiosInstance.get(
+        "/api/activity/get-activity/" + id
+      );
+      return data.data;
+    } catch (err) {
+      console.log(err);
+      return err.message;
+    }
+  }
+);
 export const addActivity = createAsyncThunk("addActivity", async (data) => {
   try {
-    await axiosInstance.post("/api/card/add-activity", {
-      data: data.data,
-      cardId: data.cardId,
-    });
+    await axiosInstance.post("/api/activity/add", data);
+    console.log(data);
     return "Activity has been added";
   } catch (err) {
     console.log(err);
@@ -24,7 +52,7 @@ export const updateActivity = createAsyncThunk(
   "updateActivity",
   async (data) => {
     try {
-      await axiosInstance.put("/api/card/update-activity", data);
+      await axiosInstance.put("/api/activity/update", data);
       return "Activity has been updated";
     } catch (err) {
       console.log(err);
@@ -36,7 +64,7 @@ export const deleteActivity = createAsyncThunk(
   "deleteActivity",
   async (cardId, noteId) => {
     try {
-      await axiosInstance.delete("/api/card/delete-activity", {
+      await axiosInstance.delete("/api/activity/delete", {
         params: {
           cardId,
           noteId,
@@ -101,6 +129,40 @@ const activitySlice = createSlice({
       state.error = null;
     });
     builder.addCase(deleteActivity.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.success = false;
+      state.error = payload;
+    });
+
+    // GET DEAL
+    builder.addCase(getActivitiesByCardId.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = null;
+    });
+    builder.addCase(getActivitiesByCardId.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.data = payload;
+      state.error = null;
+    });
+    builder.addCase(getActivitiesByCardId.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.success = false;
+      state.error = payload;
+    });
+
+    // GET DEAL
+    builder.addCase(getActivityById.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = null;
+    });
+    builder.addCase(getActivityById.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.data = payload;
+      state.error = null;
+    });
+    builder.addCase(getActivityById.rejected, (state, { payload }) => {
       state.loading = false;
       state.success = false;
       state.error = payload;

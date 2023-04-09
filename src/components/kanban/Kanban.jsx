@@ -16,7 +16,10 @@ import { updateDealStage } from "../../state/features//dealFeatures/dealSlice";
 
 const Kanban = ({ setIsKanBanEdit }) => {
   const dispatch = useDispatch();
-  const { data, loading, error } = useSelector((state) => state.stages);
+  const { data, loading, error, success } = useSelector(
+    (state) => state.stages
+  );
+  console.log(data);
   const deals = useSelector((state) => state.deals);
   const [editDealModelDisplay, setEditDealModelDisplay] = useState(false);
   const [addDealModelDisplay, setAddDealModelDisplay] = useState(false);
@@ -50,7 +53,7 @@ const Kanban = ({ setIsKanBanEdit }) => {
 
   useEffect(() => {
     dispatch(getAllStages());
-  }, [deals.success]);
+  }, [deals.success, success]);
 
   return (
     <>
@@ -89,12 +92,17 @@ const Kanban = ({ setIsKanBanEdit }) => {
       ) : null}
       {data.length ? (
         <section className="h-[calc(100%-120px)]">
-          <div className="flex overflow-x-auto h-full">
+          <div className="flex overflow-x-auto w-full h-full">
             <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
               {data &&
                 data.map((stage) => {
                   return (
-                    <Column stage={stage} key={stage._id} loading={loading} />
+                    <Column
+                      stage={stage}
+                      key={stage._id}
+                      loading={loading}
+                      length={data.length}
+                    />
                   );
                 })}
             </DragDropContext>

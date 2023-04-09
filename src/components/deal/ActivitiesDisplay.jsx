@@ -1,8 +1,13 @@
 import { Icon } from "@iconify/react";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteNote } from "../../state/features/dealFeatures/noteSlice";
+import {
+  deleteNote,
+  getNotesByCardId,
+} from "../../state/features/dealFeatures/noteSlice";
+import Loader from "../global/Loader";
+import { toast } from "react-toastify";
 
 const ActivitiesDisplay = () => {
   const [activeTab, setActiveTab] = useState("notes");
@@ -29,24 +34,12 @@ const ActivitiesDisplay = () => {
     </div>
   );
 };
-
 const Activites = ({ name }) => {
-  const { data, loading, error, success } = useSelector((state) => state.deals);
-  console.log(data);
-  return data && !loading ? (
+  const { data } = useSelector((state) => state.deals);
+  return (
     <div>
       <ul>
-        {name === "notes" && data.notes.length ? (
-          data.notes.map((note, index) => {
-            return (
-              <li key={index}>
-                <Note note={note} cardId={data._id} />
-              </li>
-            );
-          })
-        ) : (
-          <p>This deal has 0 notes</p>
-        )}
+        {name === "notes" ? <Note cardId={data._id} /> : null}
         <li className="flex">
           <div className="w-[60px] flex flex-col items-center">
             <span className="w-[40px] h-[40px] rounded-full bg-bg flex items-center justify-center">
@@ -65,43 +58,71 @@ const Activites = ({ name }) => {
         </li>
       </ul>
     </div>
-  ) : null;
+  );
 };
 
-const Note = ({ note, cardId }) => {
+const Note = ({ cardId }) => {
+  let { loading, data, error, success } = useSelector((state) => state.note);
   const dispatch = useDispatch();
-  function deleteNoteFn() {
-    dispatch(deleteNote({ cardId, noteId: note._id }));
+  function deleteNoteFn(id) {
+    dispatch(deleteNote(id));
   }
-  return (
-    <div className="flex">
-      <div className="w-[60px] flex flex-col items-center">
-        <span className="w-[40px] h-[40px] rounded-full bg-bg flex items-center justify-center">
-          <Icon icon={"material-symbols:sticky-note-2-outline"} />
-        </span>
-        <div className="line border-l-2 flex-1"></div>
-      </div>
-      <div className="bg-bg mb-2 p-3 text-sm flex-1">
-        <header className="flex items-center justify-between text-gray-600">
-          <div className="flex gap-2">
-            <span>{moment(note.createdAt).fromNow()}</span>
-            <span>Awesh Choudhary</span>
-          </div>
-          <div className="flex gap-1">
-            <button className="btn-outlined btn-small">
-              <Icon icon={"uil:pen"} />
-            </button>
-            <button onClick={deleteNoteFn} className="btn-outlined btn-small">
-              <Icon icon={"uil:trash"} />
-            </button>
-          </div>
-        </header>
-        <div
-          className="mt-2"
-          dangerouslySetInnerHTML={{ __html: note.body }}
-        ></div>
-      </div>
-    </div>
+
+  useEffect(() => {
+    dispatch(getNotesByCardId(cardId));
+  }, [cardId, success]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
+  return !loading ? (
+    data.length ? (
+      data.map((note, index) => {
+        return (
+          <li className="flex" key={index}>
+            <div className="w-[60px] flex flex-col items-center">
+              <span className="w-[40px] h-[40px] rounded-full bg-bg flex items-center justify-center">
+                <Icon icon={"material-symbols:sticky-note-2-outline"} />
+              </span>
+              <div className="line border-l-2 flex-1"></div>
+            </div>
+            <div className="bg-bg mb-2 p-3 text-sm flex-1">
+              <header className="flex items-center justify-between">
+                <div className="flex gap-2">
+                  <span>{moment(note.createdAt).fromNow()}</span>
+                  <span>Awesh Choudhary</span>
+                </div>
+                <div className="flex gap-1">
+                  <button className="btn-outlined btn-small">
+                    <Icon icon={"uil:pen"} />
+                  </button>
+                  <button
+                    onClick={() => deleteNoteFn(note._id)}
+                    className="btn-outlined btn-small"
+                  >
+                    <Icon icon={"uil:trash"} />
+                  </button>
+                </div>
+              </header>
+              <div
+                className="mt-2"
+                dangerouslySetInnerHTML={{ __html: note.body }}
+              ></div>
+            </div>
+          </li>
+        );
+      })
+    ) : (
+      <section className="w-full h-[100px] bg-bg my-4 flex items-center justify-center">
+        <p>No notes to show</p>
+      </section>
+    )
+  ) : (
+    <section className="w-full h-[100px] bg-bg my-4 flex items-center justify-center">
+      <Loader />
+    </section>
   );
 };
 

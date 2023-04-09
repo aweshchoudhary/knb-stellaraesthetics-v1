@@ -79,10 +79,12 @@ const SideBar = ({ setIsOpen, isOpen }) => {
               <li key={i}>
                 <Link
                   to={item.link}
-                  className="flex items-center gap-3 hover:bg-paper px-4 py-3 rounded"
+                  className={
+                    "flex items-center gap-3 hover:bg-paper px-4 py-3 my-2 rounded"
+                  }
                 >
-                  <Icon icon={item.icon} className="text-xl" />
-                  {isOpen && <span>{item.label}</span>}
+                  <Icon icon={item.icon} className="text-xl mx-auto" />
+                  {isOpen && <span className="flex-1">{item.label}</span>}
                 </Link>
               </li>
             );

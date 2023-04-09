@@ -11,7 +11,13 @@ const Deals = () => {
   return (
     <>
       <Header title={"Deals"} />
-      <Suspense fallback={<Loader />}>
+      <Suspense
+        fallback={
+          <section className="w-full h-screen flex items-center justify-center">
+            <Loader />
+          </section>
+        }
+      >
         {isKanBanEdit ? (
           <EditKanban setIsKanBanEdit={setIsKanBanEdit} />
         ) : (

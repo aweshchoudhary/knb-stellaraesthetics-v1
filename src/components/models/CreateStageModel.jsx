@@ -43,7 +43,7 @@ const CreateStageModel = ({ setIsOpen }) => {
           <button
             className="btn-outlined"
             onClick={discardStage}
-            disabled={loading || stageName.length < 4}
+            disabled={loading}
           >
             discard
           </button>

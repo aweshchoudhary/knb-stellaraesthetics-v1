@@ -573,7 +573,7 @@ html,
 body {
   width: 100vw;
   height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
   font-family: "Poppins", sans-serif;
   color: var(--text-color);
   background: var(--background);
@@ -938,6 +938,10 @@ option {
   height: 100vh;
 }
 
+.h-\[calc\(100vh-120px\)\] {
+  height: calc(100vh - 120px);
+}
+
 .max-h-\[90\%\] {
   max-height: 90%;
 }
@@ -1056,6 +1060,10 @@ option {
   align-items: center;
 }
 
+.items-stretch {
+  align-items: stretch;
+}
+
 .justify-end {
   justify-content: flex-end;
 }
@@ -1086,10 +1094,6 @@ option {
 
 .gap-5 {
   gap: 1.25rem;
-}
-
-.overflow-auto {
-  overflow: auto;
 }
 
 .overflow-x-auto {
@@ -1291,6 +1295,10 @@ option {
 
 .pt-3 {
   padding-top: 0.75rem;
+}
+
+.pt-0 {
+  padding-top: 0px;
 }
 
 .text-left {

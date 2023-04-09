@@ -6,7 +6,7 @@ import moment from "moment";
 
 const DealSideBar = ({ data }) => {
   return (
-    <aside className="w-[350px] shrink-0 border-r h-full overflow-auto">
+    <aside className="w-[350px] shrink-0 h-full overflow-y-auto">
       <Accordian title={"Summary"}>
         <AccordianBody>
           <div>

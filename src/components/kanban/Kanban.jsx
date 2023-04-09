@@ -19,7 +19,6 @@ const Kanban = ({ setIsKanBanEdit }) => {
   const { data, loading, error, success } = useSelector(
     (state) => state.stages
   );
-  console.log(data);
   const deals = useSelector((state) => state.deals);
   const [editDealModelDisplay, setEditDealModelDisplay] = useState(false);
   const [addDealModelDisplay, setAddDealModelDisplay] = useState(false);
@@ -91,7 +90,7 @@ const Kanban = ({ setIsKanBanEdit }) => {
         </section>
       ) : null}
       {data.length ? (
-        <section className="h-[calc(100%-120px)]">
+        <section className="h-[calc(100vh-120px)]">
           <div className="flex overflow-x-auto w-full h-full">
             <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
               {data &&

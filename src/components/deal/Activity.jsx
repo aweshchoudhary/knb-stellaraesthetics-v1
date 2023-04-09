@@ -71,6 +71,7 @@ const Activity = () => {
         holder,
       })
     );
+    handleCancel();
   }
   function handleCancel() {
     setTitle("call");

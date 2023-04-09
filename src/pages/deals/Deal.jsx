@@ -1,4 +1,3 @@
-import { Icon } from "@iconify/react";
 import Header from "../../components/global/Header";
 import Tabs from "../../components/global/Tabs";
 import Notes from "../../components/deal/Notes";
@@ -21,7 +20,7 @@ import ActivitiesDisplay from "../../components/deal/ActivitiesDisplay";
 import FocusActivities from "../../components/deal/FocusActivities";
 
 const Deal = () => {
-  const { data, loading, error, success } = useSelector((state) => state.deals);
+  const { data, loading } = useSelector((state) => state.deals);
   const stages = useSelector((state) => state.stages);
   const params = useParams();
   const dispatch = useDispatch();
@@ -54,6 +53,7 @@ const Deal = () => {
       component: <Email />,
     },
   ];
+
   function updateDealStageFn(cardId, prevStageId, newStageId) {
     dispatch(
       updateDealStage({
@@ -131,7 +131,7 @@ const Deal = () => {
             })}
         </div>
       </section>
-      <section className="flex min-h-[calc(100%-180px)]">
+      <section className="flex min-h-[calc(100%-180px)] items-stretch">
         <DealSideBar data={data} />
         <div className="flex-1 p-5 bg-paper">
           <Tabs tabs={tabs} />

@@ -27,7 +27,7 @@ html,
 body {
   width: 100vw;
   height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
   font-family: "Poppins", sans-serif;
   color: var(--text-color);
   background: var(--background);

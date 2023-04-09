@@ -1,6 +1,8 @@
+import { useState } from "react";
 import RichTextEditor from "../global/RichTextEditor";
 
 const Email = () => {
+  const [emailBody, setEmailBody] = useState("");
   return (
     <section>
       <div className="p-5">
@@ -32,7 +34,7 @@ const Email = () => {
           />
         </div>
         <div className="email-body mb-3">
-          <RichTextEditor />
+          <RichTextEditor setContent={setEmailBody} />
         </div>
       </div>
       <footer className="flex gap-2 px-5 py-3 border-t">

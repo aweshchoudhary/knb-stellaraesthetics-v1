@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -50,9 +50,9 @@ const Kanban = ({ setIsKanBanEdit }) => {
     }
   };
 
-  useEffect(() => {
+  useMemo(() => {
     dispatch(getAllStages());
-  }, [deals.success, success]);
+  }, [error, deals.error]);
 
   return (
     <>

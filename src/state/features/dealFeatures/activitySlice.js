@@ -52,7 +52,9 @@ export const updateActivity = createAsyncThunk(
   "updateActivity",
   async (data) => {
     try {
-      await axiosInstance.put("/api/activity/update", data);
+      await axiosInstance.put("/api/activity/update/" + data.id, {
+        data: data.update,
+      });
       return "Activity has been updated";
     } catch (err) {
       console.log(err);
@@ -60,23 +62,15 @@ export const updateActivity = createAsyncThunk(
     }
   }
 );
-export const deleteActivity = createAsyncThunk(
-  "deleteActivity",
-  async (cardId, noteId) => {
-    try {
-      await axiosInstance.delete("/api/activity/delete", {
-        params: {
-          cardId,
-          noteId,
-        },
-      });
-      return "Activity has been deleted";
-    } catch (err) {
-      console.log(err);
-      return err.message;
-    }
+export const deleteActivity = createAsyncThunk("deleteActivity", async (id) => {
+  try {
+    await axiosInstance.delete("/api/activity/delete/" + id);
+    return "Activity has been deleted";
+  } catch (err) {
+    console.log(err);
+    return err.message;
   }
-);
+});
 
 const activitySlice = createSlice({
   name: "activity",

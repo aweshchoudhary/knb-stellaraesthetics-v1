@@ -10,9 +10,8 @@ const initialState = {
 
 export const getDealsByStage = createAsyncThunk("getDealsByStage", async () => {
   try {
-    const res = await axiosInstance.get("/api/get-all-kanbans");
-    console.log(res);
-    return res;
+    const { data } = await axiosInstance.get("/api/get-all-kanbans");
+    return data.data;
   } catch (err) {
     console.log(err);
     return err.message;

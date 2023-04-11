@@ -5,6 +5,7 @@ import stageSlice from "./features/stageSlice";
 import dealSlice from "./features/dealFeatures/dealSlice";
 import noteSlice from "./features/dealFeatures/noteSlice";
 import activitySlice from "./features/dealFeatures/activitySlice";
+import labelSlice from "./features/labelSlice";
 const store = configureStore({
   reducer: {
     deals: dealSlice,
@@ -13,6 +14,7 @@ const store = configureStore({
     stages: stageSlice,
     global: globalSlice,
     auth: authSlice,
+    label: labelSlice,
   },
 });
 

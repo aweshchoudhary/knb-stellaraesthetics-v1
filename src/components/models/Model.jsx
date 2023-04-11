@@ -14,7 +14,7 @@ const Model = ({ children, isOpen, setIsOpen, title }) => {
               <Icon icon={"uil:times"} className="text-2xl" />
             </button>
           </header>
-          <div className="body h-[calc(100%-50px)] overflow-y-auto">
+          <div className="body h-[calc(100%-50px)] overflow-y-auto overflow-x-hidden">
             {children}
           </div>
         </div>

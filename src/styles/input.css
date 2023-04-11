@@ -61,13 +61,16 @@ option{
   @apply capitalize border border-primary px-4 py-2 text-white flex items-center gap-2 bg-primary rounded hover:opacity-80 transition disabled:bg-paper disabled:border-paper disabled:text-gray-500 disabled:hover:opacity-100;
 }
 .btn-outlined {
-  @apply px-4 py-2 text-textColor flex items-center gap-2 border rounded capitalize hover:bg-paper transition disabled:text-paper disabled:hover:bg-transparent;
+  @apply px-4 py-2 text-textColor hover:border-textColor flex items-center gap-2 border rounded capitalize hover:bg-paper transition disabled:text-paper disabled:hover:bg-transparent;
 }
 .btn-small {
   @apply px-3 py-2 text-sm;
 }
 .input {
   @apply border focus:border-textColor hover:border-textColor bg-transparent px-3 py-2 rounded w-full outline-0 outline-none text-sm;
+}
+input {
+  outline: none;
 }
 
 .loader{

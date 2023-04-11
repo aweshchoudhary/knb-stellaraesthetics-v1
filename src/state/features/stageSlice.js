@@ -37,7 +37,7 @@ const initialState = {
 
 export const getAllStages = createAsyncThunk("getAllStages", async () => {
   try {
-    const res = await axiosInstance.get("/api/get-all-stages");
+    const res = await axiosInstance.get("/api/get-stages");
     return res.data.data;
   } catch (err) {
     return err.message;

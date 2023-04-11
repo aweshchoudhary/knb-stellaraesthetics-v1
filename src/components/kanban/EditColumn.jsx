@@ -27,7 +27,7 @@ const EditColumn = ({ provided, length, item }) => {
       </Model>
       <div
         className={
-          "border-r shrink-0 relative bg-bg flex flex-col justify-between flex-1"
+          "border-r shrink-0 relative bg-bg flex flex-col justify-between flex-1 h-[calc(100vh-135px)]"
         }
         ref={provided.innerRef}
         {...provided.draggableProps}

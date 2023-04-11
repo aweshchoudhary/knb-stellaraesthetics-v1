@@ -1,6 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createDeal } from "../../state/features/dealFeatures/dealSlice";
+
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import Label from "../deal/label/Label";
 
 const AddDeal = ({ setIsOpen }) => {
   const stages = useSelector((state) => state.stages);
@@ -12,7 +16,7 @@ const AddDeal = ({ setIsOpen }) => {
       company: null,
       title: null,
       contactPerson: null,
-      phone: { number: null, prefix: "91", type: "work" },
+      phone: { number: null, type: "work" },
       email: { email: null, type: "work" },
     },
     value: { value: null, type: "inr" },
@@ -20,13 +24,17 @@ const AddDeal = ({ setIsOpen }) => {
     color: null,
     expectedClosingDate: null,
   });
+  const [mobile, setMobile] = useState("");
   const colors = useRef([
-    "red-500",
+    "",
     "yellow-500",
     "green-500",
     "purple-500",
     "primary",
   ]);
+
+  const region = navigator?.language?.split("-")[1];
+
   function addNewDeal() {
     dispatch(createDeal(dealData));
     setDealData({
@@ -63,6 +71,14 @@ const AddDeal = ({ setIsOpen }) => {
       };
     });
   }
+
+  useEffect(() => {
+    fillClientDetails("phone", {
+      number: mobile,
+      type: dealData.clientDetails.phone.type,
+    });
+  }, [mobile]);
+  console.log(dealData.clientDetails.phone.number);
 
   return (
     <>
@@ -170,17 +186,7 @@ const AddDeal = ({ setIsOpen }) => {
               })}
             </select>
           </div>
-          <div className="input-color mb-3 flex items-center gap-1">
-            {colors.current.map((item, i) => {
-              return (
-                <button
-                  key={i}
-                  className={`w-[40px] h-[40px] hover:border-2 border-black rounded-full bg-${item}`}
-                  type="button"
-                ></button>
-              );
-            })}
-          </div>
+          <Label />
           <div className="input-close-date mb-3">
             <label htmlFor="close-date" className="text-textColor block mb-2">
               Expected Close Date
@@ -200,11 +206,18 @@ const AddDeal = ({ setIsOpen }) => {
           </div>
         </div>
         <div className="flex-1 h-full p-3">
-          <div className="input-group mb-3">
+          <div className="input-group mb-3 w-full">
             <label htmlFor="personName" className="text-textColor block  mb-2">
-              Phone
+              Mobile
             </label>
-            <div className="flex items-center gap-2">
+            <PhoneInput
+              placeholder="Enter phone number"
+              value={mobile}
+              defaultCountry={region}
+              onChange={setMobile}
+              className="input"
+            />
+            {/* <div className="flex items-center gap-2">
               <input
                 type="number"
                 name="phone"
@@ -245,7 +258,61 @@ const AddDeal = ({ setIsOpen }) => {
                   Other
                 </option>
               </select>
-            </div>
+            </div> */}
+          </div>
+          <div className="input-group mb-3 w-full">
+            <label htmlFor="personName" className="text-textColor block  mb-2">
+              Whatsapp Number
+            </label>
+            <PhoneInput
+              placeholder="Enter phone number"
+              value={mobile}
+              defaultCountry={region}
+              onChange={setMobile}
+              className="input"
+            />
+            {/* <div className="flex items-center gap-2">
+              <input
+                type="number"
+                name="phone"
+                id="phone"
+                placeholder="Phone"
+                className="input w-[60%]"
+                onChange={(e) =>
+                  fillClientDetails(e.target.name, {
+                    number: +e.target.value,
+                    prefix: dealData.clientDetails.phone.prefix,
+                    type: dealData.clientDetails.phone.type,
+                  })
+                }
+              />
+              <select
+                name="type"
+                id="phone-type"
+                className="input w-[40%]"
+                onChange={(e) =>
+                  fillClientDetails(e.target.name, {
+                    number: dealData.clientDetails.phone.number,
+                    prefix: dealData.clientDetails.phone.prefix,
+                    type: e.target.value,
+                  })
+                }
+              >
+                <option
+                  defaultValue={"work"}
+                  className="text-black"
+                  value="work"
+                >
+                  Work
+                </option>
+                <option className="text-black" value="personal">
+                  Personal
+                </option>
+                <option className="text-black" value="other">
+                  Other
+                </option>
+              </select>
+            </div> */}
           </div>
           <div className="input-group mb-3">
             <label htmlFor="personName" className="text-textColor block  mb-2">
@@ -268,7 +335,7 @@ const AddDeal = ({ setIsOpen }) => {
               <select
                 name="type"
                 id="email-type"
-                className="border py-2 bg-transparent rounded px-3 w-[40%]"
+                className="border py-2 bg-transparent text-sm rounded px-3 w-[40%]"
                 onChange={(e) =>
                   fillClientDetails(e.target.name, {
                     email: dealData.clientDetails.email.email,

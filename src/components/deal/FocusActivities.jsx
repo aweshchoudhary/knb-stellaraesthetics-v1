@@ -4,7 +4,11 @@ import moment from "moment";
 import Loader from "../global/Loader";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { getActivitiesByCardId } from "../../state/features/dealFeatures/activitySlice";
+import {
+  getActivitiesByCardId,
+  updateActivity,
+} from "../../state/features/dealFeatures/activitySlice";
+import { deleteActivity } from "../../state/features/dealFeatures/activitySlice";
 
 const FocusActivities = () => {
   return (
@@ -21,7 +25,7 @@ const Activites = () => {
   const deal = useSelector((state) => state.deals);
   const { data, loading, success } = useSelector((state) => state.activity);
   const dispatch = useDispatch();
-  console.log(data);
+
   useEffect(() => {
     dispatch(getActivitiesByCardId(deal.data._id));
   }, [deal.data._id, success]);
@@ -29,10 +33,10 @@ const Activites = () => {
     <div>
       <ul>
         {data.length ? (
-          data.map((activity, index) => {
+          data?.map((activity, index) => {
             return (
               <li key={index}>
-                <ActivityCard data={activity} cardId={data._id} />
+                <ActivityCard data={activity} />
               </li>
             );
           })
@@ -51,7 +55,20 @@ const Activites = () => {
 };
 
 const ActivityCard = ({ data }) => {
-  const deal = useSelector((state) => state.deals);
+  const dispatch = useDispatch();
+  function handleDeleteActivity() {
+    dispatch(deleteActivity(data._id));
+  }
+  function handleMarkDoneActivity() {
+    dispatch(
+      updateActivity({
+        id: data._id,
+        update: {
+          markDone: true,
+        },
+      })
+    );
+  }
   return (
     <div className="flex">
       <div className="w-[60px] flex flex-col items-center">
@@ -63,8 +80,12 @@ const ActivityCard = ({ data }) => {
       <div className="bg-bg mb-2 p-3 text-sm flex-1">
         <header className="flex items-center justify-between ">
           <div className="flex gap-2 items-center">
-            <button className="p-2 rounded-full border-2 hover:border-textColor"></button>
-            <span className="capitalize text-lg text-textColor">
+            <button
+              className="w-[15px] h-[15px] rounded-full border-2 hover:border-textColor grow-0 shrink-0"
+              onClick={handleMarkDoneActivity}
+              title="Mark Done"
+            ></button>
+            <span className="capitalize font-medium text-lg text-textColor">
               {data.title}
             </span>
           </div>
@@ -72,7 +93,10 @@ const ActivityCard = ({ data }) => {
             <button className="btn-outlined btn-small">
               <Icon icon={"uil:pen"} />
             </button>
-            <button className="btn-outlined btn-small">
+            <button
+              className="btn-outlined btn-small"
+              onClick={handleDeleteActivity}
+            >
               <Icon icon={"uil:trash"} />
             </button>
           </div>
